@@ -629,7 +629,7 @@ export function runRESTRequest$(
               )
             ) {
               updateEnvsAfterTestScript(
-                combinedResult,
+                combinedResult.right.envs,
                 initialEnvironmentIndex,
                 initialEnvName,
                 initialEnvsForComparison,
@@ -695,7 +695,7 @@ export function runRESTRequest$(
 }
 
 export function updateEnvsAfterTestScript(
-  runResult: E.Right<SandboxTestResult>,
+  finalEnvs: TestResult["envs"],
   initialEnvironmentIndex: SelectedEnvironmentIndex,
   initialEnvName: string,
   initialEnvsForComparison: TestResult["envs"],
@@ -708,16 +708,16 @@ export function updateEnvsAfterTestScript(
   // globals (and the same happens the other way for TEAM_ENV).
   const globalChanged = hasScopeChanges(
     initialEnvsForComparison.global,
-    runResult.right.envs.global
+    finalEnvs.global
   )
   const selectedChanged = hasScopeChanges(
     initialEnvsForComparison.selected,
-    runResult.right.envs.selected
+    finalEnvs.selected
   )
 
   if (globalChanged) {
     const globalEnvVariables = updateEnvironments(
-      runResult.right.envs.global,
+      finalEnvs.global,
       "global",
       undefined,
       nonSecretKeysOf(initialEnvsForComparison.global)
@@ -731,7 +731,7 @@ export function updateEnvsAfterTestScript(
 
   if (selectedChanged) {
     const selectedEnvVariables = updateEnvironments(
-      cloneDeep(runResult.right.envs.selected),
+      cloneDeep(finalEnvs.selected),
       "selected",
       initialEnvID,
       nonSecretKeysOf(initialEnvsForComparison.selected)
@@ -992,7 +992,7 @@ export async function runTestRunnerRequest(
                 )
               ) {
                 updateEnvsAfterTestScript(
-                  postRequestScriptResult,
+                  postRequestScriptResult.right.envs,
                   initialEnvironmentIndex,
                   initialEnvName,
                   initialEnvsForComparison,
