@@ -19,7 +19,7 @@ import { isGQLRequest } from "~/helpers/request-type"
 import {
   HoppTestRunnerDocument,
   TestRunnerConfig,
-} from "~/helpers/rest/document"
+} from "~/helpers/tab/document"
 import { HoppRESTResponse } from "~/helpers/types/HoppRESTResponse"
 import { HoppTestData, HoppTestResult } from "~/helpers/types/HoppTestResult"
 import { HoppTab } from "../tab"

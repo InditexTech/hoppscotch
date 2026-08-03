@@ -41,7 +41,7 @@
           {{ t("collection.select_location") }}
         </label>
         <CollectionsGraphql
-          v-if="mode === 'graphql'"
+          v-if="mode === 'legacy-graphql'"
           :picked="picked"
           :save-request="true"
           @select="onSelect"
@@ -161,7 +161,7 @@ import { handleTokenValidation } from "~/helpers/handleTokenValidation"
 const t = useI18n()
 const toast = useToast()
 
-const RESTTabs = useService(WorkspaceTabsService)
+const workspaceTabs = useService(WorkspaceTabsService)
 const GQLTabs = useService(GQLTabService)
 const teamCollectionService = useService(TeamCollectionsService)
 
@@ -175,12 +175,12 @@ type CollectionType =
 const props = withDefaults(
   defineProps<{
     show: boolean
-    mode: "rest" | "graphql"
+    mode: "workspace" | "legacy-graphql"
     request?: HoppRESTRequest | HoppGQLRequest | null
   }>(),
   {
     show: false,
-    mode: "rest",
+    mode: "workspace",
     request: null,
   }
 )
@@ -202,10 +202,10 @@ const gqlRequestName = computedWithControl(
   () => GQLTabs.currentActiveTab.value.document.request.name
 )
 
-const restRequestName = computedWithControl(
-  () => RESTTabs.currentActiveTab.value,
+const workspaceRequestName = computedWithControl(
+  () => workspaceTabs.currentActiveTab.value,
   () => {
-    const doc = RESTTabs.currentActiveTab.value.document
+    const doc = workspaceTabs.currentActiveTab.value.document
     if (doc.type === "request" || doc.type === "gql-request")
       return doc.request.name
     return ""
@@ -215,8 +215,8 @@ const restRequestName = computedWithControl(
 const reqName = computed(() => {
   if (props.request) {
     return props.request.name
-  } else if (props.mode === "rest") {
-    return restRequestName.value
+  } else if (props.mode === "workspace") {
+    return workspaceRequestName.value
   }
   return gqlRequestName.value
 })
@@ -226,8 +226,8 @@ const requestContext = computed(() => {
     return props.request
   }
 
-  if (props.mode === "rest") {
-    const doc = RESTTabs.currentActiveTab.value.document
+  if (props.mode === "workspace") {
+    const doc = workspaceTabs.currentActiveTab.value.document
     if (doc.type === "request" || doc.type === "gql-request") {
       return doc.request
     }
@@ -259,10 +259,10 @@ const submittedFeedback = ref(false)
 const { submitFeedback, isSubmitFeedbackPending } = useSubmitFeedback()
 
 watch(
-  () => [RESTTabs.currentActiveTab.value, GQLTabs.currentActiveTab.value],
+  () => [workspaceTabs.currentActiveTab.value, GQLTabs.currentActiveTab.value],
   () => {
-    if (props.mode === "rest") {
-      const doc = RESTTabs.currentActiveTab.value.document
+    if (props.mode === "workspace") {
+      const doc = workspaceTabs.currentActiveTab.value.document
       if (doc.type === "request" || doc.type === "gql-request") {
         requestName.value = doc.request.name ?? ""
       }
@@ -330,8 +330,8 @@ const saveRequestAs = async () => {
   }
 
   const requestUpdated = (() => {
-    if (props.mode === "rest") {
-      const doc = RESTTabs.currentActiveTab.value.document
+    if (props.mode === "workspace") {
+      const doc = workspaceTabs.currentActiveTab.value.document
       if (doc.type === "request" || doc.type === "gql-request") {
         return cloneDeep(doc.request)
       }
@@ -367,7 +367,7 @@ const saveRequestAs = async () => {
     const folderPath = `${picked.value.collectionIndex}`
 
     if (isGQLRequest(requestUpdated)) {
-      RESTTabs.currentActiveTab.value.document = {
+      workspaceTabs.currentActiveTab.value.document = {
         type: "gql-request",
         request: requestUpdated as HoppGQLRequest,
         isDirty: false,
@@ -385,9 +385,10 @@ const saveRequestAs = async () => {
         ),
       }
     } else {
-      if (RESTTabs.currentActiveTab.value.document.type !== "request") return
+      if (workspaceTabs.currentActiveTab.value.document.type !== "request")
+        return
 
-      RESTTabs.currentActiveTab.value.document = {
+      workspaceTabs.currentActiveTab.value.document = {
         request: requestUpdated as HoppRESTRequest,
         isDirty: false,
         type: "request",
@@ -400,7 +401,7 @@ const saveRequestAs = async () => {
         },
       }
 
-      RESTTabs.currentActiveTab.value.document.inheritedProperties =
+      workspaceTabs.currentActiveTab.value.document.inheritedProperties =
         cascadeParentCollectionForProperties(folderPath, "rest")
     }
 
@@ -419,7 +420,7 @@ const saveRequestAs = async () => {
     )
 
     if (isGQLRequest(requestUpdated)) {
-      RESTTabs.currentActiveTab.value.document = {
+      workspaceTabs.currentActiveTab.value.document = {
         type: "gql-request",
         request: requestUpdated as HoppGQLRequest,
         isDirty: false,
@@ -436,7 +437,7 @@ const saveRequestAs = async () => {
         ),
       }
     } else {
-      RESTTabs.currentActiveTab.value.document = {
+      workspaceTabs.currentActiveTab.value.document = {
         request: requestUpdated as HoppRESTRequest,
         isDirty: false,
         type: "request",
@@ -448,7 +449,7 @@ const saveRequestAs = async () => {
         },
       }
 
-      RESTTabs.currentActiveTab.value.document.inheritedProperties =
+      workspaceTabs.currentActiveTab.value.document.inheritedProperties =
         cascadeParentCollectionForProperties(picked.value.folderPath, "rest")
     }
 
@@ -468,7 +469,7 @@ const saveRequestAs = async () => {
     )
 
     if (isGQLRequest(requestUpdated)) {
-      RESTTabs.currentActiveTab.value.document = {
+      workspaceTabs.currentActiveTab.value.document = {
         type: "gql-request",
         request: requestUpdated as HoppGQLRequest,
         isDirty: false,
@@ -485,7 +486,7 @@ const saveRequestAs = async () => {
         ),
       }
     } else {
-      RESTTabs.currentActiveTab.value.document = {
+      workspaceTabs.currentActiveTab.value.document = {
         request: requestUpdated as HoppRESTRequest,
         isDirty: false,
         type: "request",
@@ -497,7 +498,7 @@ const saveRequestAs = async () => {
         },
       }
 
-      RESTTabs.currentActiveTab.value.document.inheritedProperties =
+      workspaceTabs.currentActiveTab.value.document.inheritedProperties =
         cascadeParentCollectionForProperties(picked.value.folderPath, "rest")
     }
 
@@ -699,7 +700,7 @@ const updateTeamCollectionOrFolder = (
           )
 
         if (isGQLRequest(requestUpdated)) {
-          RESTTabs.currentActiveTab.value.document = {
+          workspaceTabs.currentActiveTab.value.document = {
             type: "gql-request",
             request: requestUpdated as HoppGQLRequest,
             isDirty: false,
@@ -708,7 +709,7 @@ const updateTeamCollectionOrFolder = (
             inheritedProperties,
           }
         } else {
-          RESTTabs.currentActiveTab.value.document = {
+          workspaceTabs.currentActiveTab.value.document = {
             type: "request",
             request: requestUpdated as HoppRESTRequest,
             isDirty: false,
@@ -728,7 +729,7 @@ const requestSaved = (tab: "REST" | "GQL" = "REST") => {
   toast.success(`${t("request.added")}`)
   nextTick(() => {
     if (tab === "REST") {
-      RESTTabs.currentActiveTab.value.document.isDirty = false
+      workspaceTabs.currentActiveTab.value.document.isDirty = false
     } else {
       GQLTabs.currentActiveTab.value.document.isDirty = false
     }

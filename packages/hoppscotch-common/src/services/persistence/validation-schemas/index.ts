@@ -573,7 +573,7 @@ const HoppRESTResponseSchema = z.discriminatedUnion("type", [
     .strict(),
 ])
 
-const HoppRESTSaveContextSchema = z.nullable(
+const HoppTabSaveContextSchema = z.nullable(
   z.discriminatedUnion("originLocation", [
     z
       .object({
@@ -660,7 +660,7 @@ export const WORKSPACE_TABS_STATE_SCHEMA = z
             request: entityReference(HoppRESTRequest),
             type: z.literal("request").catch("request"),
             isDirty: z.boolean(),
-            saveContext: z.optional(HoppRESTSaveContextSchema),
+            saveContext: z.optional(HoppTabSaveContextSchema),
             response: z.optional(z.nullable(HoppRESTResponseSchema)),
             testResults: z.optional(z.nullable(HoppTestResultSchema)),
             responseTabPreference: z.optional(z.string()),
@@ -671,7 +671,7 @@ export const WORKSPACE_TABS_STATE_SCHEMA = z
           z.object({
             type: z.literal("example-response").catch("example-response"),
             response: entityReference(HoppRESTRequestResponse),
-            saveContext: z.optional(HoppRESTSaveContextSchema),
+            saveContext: z.optional(HoppTabSaveContextSchema),
             isDirty: z.boolean(),
             inheritedProperties: z.optional(HoppInheritedPropertySchema),
           }),
@@ -683,7 +683,7 @@ export const WORKSPACE_TABS_STATE_SCHEMA = z
             request: entityReference(HoppGQLRequest),
             isDirty: z.boolean(),
             cursorPosition: z.optional(z.number()),
-            saveContext: z.optional(HoppRESTSaveContextSchema),
+            saveContext: z.optional(HoppTabSaveContextSchema),
             response: z.optional(z.nullable(z.array(z.any()))),
             responseTabPreference: z.optional(z.string()),
             optionTabPreference: z.optional(
@@ -702,7 +702,7 @@ export const WORKSPACE_TABS_STATE_SCHEMA = z
           z.object({
             type: z.literal("gql-example-response"),
             response: z.nullable(entityReference(HoppGQLRequestResponse)),
-            saveContext: z.optional(HoppRESTSaveContextSchema),
+            saveContext: z.optional(HoppTabSaveContextSchema),
             isDirty: z.boolean(),
             inheritedProperties: z.optional(HoppInheritedPropertySchema),
           }),

@@ -3,7 +3,7 @@ import { computed, ref, readonly, type Ref } from "vue"
 import { cloneDeep } from "lodash-es"
 import type { HoppGQLRequest, HoppRESTRequest } from "@hoppscotch/data"
 import { getDefaultRESTRequest } from "~/helpers/rest/default"
-import { HoppRESTSaveContext, HoppTabDocument } from "~/helpers/rest/document"
+import { HoppTabSaveContext, HoppTabDocument } from "~/helpers/tab/document"
 import { getService } from "~/modules/dioc"
 import { PersistenceService, STORE_KEYS } from "../persistence"
 import type { Workspace } from "../workspace.service"
@@ -247,7 +247,7 @@ export class WorkspaceTabsService extends TabService<HoppTabDocument> {
     return savedState
   }
 
-  public getTabRefWithSaveContext(ctx: HoppRESTSaveContext) {
+  public getTabRefWithSaveContext(ctx: HoppTabSaveContext) {
     for (const tab of this.tabMap.values()) {
       // For `team-collection` request id can be considered unique
       if (tab.document.type === "test-runner") continue

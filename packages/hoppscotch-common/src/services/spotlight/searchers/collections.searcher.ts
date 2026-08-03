@@ -45,7 +45,7 @@ export class CollectionsSpotlightSearcherService
   public searcherID = "collections"
   public searcherSectionTitle = this.t("collection.my_collections")
 
-  private readonly restTab = this.bind(WorkspaceTabsService)
+  private readonly workspaceTab = this.bind(WorkspaceTabsService)
   private readonly gqlTab = this.bind(GQLTabService)
 
   private readonly spotlight = this.bind(SpotlightService)
@@ -305,14 +305,14 @@ export class CollectionsSpotlightSearcherService
         })
       }
 
-      const possibleTab = this.restTab.getTabRefWithSaveContext({
+      const possibleTab = this.workspaceTab.getTabRefWithSaveContext({
         originLocation: "user-collection",
         folderPath: folderPath.join("/"),
         requestIndex: reqIndex,
       })
 
       if (possibleTab) {
-        this.restTab.setActiveTab(possibleTab.value.id)
+        this.workspaceTab.setActiveTab(possibleTab.value.id)
       } else {
         const req = this.getRESTFolderFromFolderPath(folderPath.join("/"))
           ?.requests[reqIndex]
@@ -321,7 +321,7 @@ export class CollectionsSpotlightSearcherService
 
         // Collections hold mixed types — route GQL requests to a gql tab
         if (isGQLRequest(req)) {
-          this.restTab.createNewTab(
+          this.workspaceTab.createNewTab(
             {
               type: "gql-request",
               request: req as HoppGQLRequest,
@@ -340,7 +340,7 @@ export class CollectionsSpotlightSearcherService
             true
           )
         } else {
-          this.restTab.createNewTab(
+          this.workspaceTab.createNewTab(
             {
               type: "request",
               request: req as HoppRESTRequest,
@@ -371,7 +371,7 @@ export class CollectionsSpotlightSearcherService
       // Mirror of the REST branch above — GQL collections can hold
       // REST-shaped requests; open those in the unified workspace
       if (!isGQLRequest(req)) {
-        this.restTab.createNewTab(
+        this.workspaceTab.createNewTab(
           {
             type: "request",
             request: req as HoppRESTRequest,

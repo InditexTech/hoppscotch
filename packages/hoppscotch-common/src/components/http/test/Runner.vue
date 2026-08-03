@@ -153,7 +153,7 @@ import {
   getCompleteCollectionTree,
   teamCollToHoppRESTColl,
 } from "~/helpers/backend/helpers"
-import { HoppTestRunnerDocument } from "~/helpers/rest/document"
+import { HoppTestRunnerDocument } from "~/helpers/tab/document"
 import {
   CollectionNode,
   TestRunnerCollectionsAdapter,
