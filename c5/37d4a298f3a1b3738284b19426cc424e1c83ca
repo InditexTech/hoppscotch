@@ -1,0 +1,43 @@
+packages/hoppscotch-common/src/composables/oauth2/useOAuth2GrantTypes.ts
+  s_ebe6828db9e691::t_539e178945cdec 165-191,284-285,316,419-436
+packages/hoppscotch-common/src/helpers/auth/types/__tests__/oauth2.spec.ts
+  s_ebe6828db9e691::t_1d111a8deb127f 21,54,167,193
+packages/hoppscotch-common/src/helpers/import-export/import/insomnia/insomniaColl.ts
+  s_ebe6828db9e691::t_ac7bd9882c5ec0 123
+packages/hoppscotch-common/src/helpers/import-export/import/openapi/index.ts
+  s_ebe6828db9e691::t_4bc1f222099f87 785,855,875,998,1068
+packages/hoppscotch-common/src/helpers/import-export/import/postman.ts
+  s_ebe6828db9e691::t_c9d30581ad9c57 374
+packages/hoppscotch-common/src/services/oauth/clientAuthentication.ts
+  s_ebe6828db9e691::t_ea82422933aabe 1-165
+packages/hoppscotch-common/src/services/oauth/flows/__tests__/authCode.spec.ts
+  s_ebe6828db9e691::t_2b75fc79c344e8 1-172
+packages/hoppscotch-common/src/services/oauth/flows/authCode.ts
+  s_ebe6828db9e691::t_adeef411393887 13,29,63-64,73,91,125,157,252-255,275-281,283-286
+packages/hoppscotch-common/src/services/oauth/flows/clientCredentials.ts
+  s_ebe6828db9e691::t_c9710bff421539 14,212
+packages/hoppscotch-common/src/services/oauth/utils.ts
+  s_ebe6828db9e691::t_f1367b3e4e6bf9 7-10,29,43,46-55
+packages/hoppscotch-common/src/types/post-request.d.ts
+  s_ebe6828db9e691::t_50900a08f96e35 123
+packages/hoppscotch-common/src/types/pre-request.d.ts
+  s_ebe6828db9e691::t_1b124eca36bffb 111
+packages/hoppscotch-data/src/rest/v/15/auth.ts
+  s_ebe6828db9e691::t_e8e4234db6cd53 37-39
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "c537d4a298f3a1b3738284b19426cc424e1c83ca",
+  "prompts": {},
+  "sessions": {
+    "s_ebe6828db9e691": {
+      "agent_id": {
+        "tool": "github-copilot",
+        "id": "3af9f317-9734-4f5c-a29b-7b489f0e028e",
+        "model": "unknown"
+      },
+      "human_author": "Alejandro Peral Taboada <alejandropta@inditex.com>"
+    }
+  }
+}
