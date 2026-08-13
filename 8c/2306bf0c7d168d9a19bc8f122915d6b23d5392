@@ -1,0 +1,16 @@
+packages/hoppscotch-common/src/services/oauth/clientAuthentication.ts
+  h_21da4d2ae29e6e 24-25,47-48,53-58,182-188
+packages/hoppscotch-common/src/services/oauth/flows/__tests__/authCode.spec.ts
+  h_21da4d2ae29e6e 106-123,261-280,334-348
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "8c2306bf0c7d168d9a19bc8f122915d6b23d5392",
+  "prompts": {},
+  "humans": {
+    "h_21da4d2ae29e6e": {
+      "author": "Alejandro Peral Taboada <alejandropta@inditex.com>"
+    }
+  }
+}
